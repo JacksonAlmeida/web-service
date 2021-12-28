@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.sunsystem.webservice.entity.Category;
 import com.sunsystem.webservice.entity.Order;
+import com.sunsystem.webservice.entity.Product;
 import com.sunsystem.webservice.entity.User;
 import com.sunsystem.webservice.enums.OrderStatus;
 import com.sunsystem.webservice.repository.CategoryRepository;
 import com.sunsystem.webservice.repository.OrderRepository;
+import com.sunsystem.webservice.repository.ProductRepository;
 import com.sunsystem.webservice.repository.UserRepository;
 
 @Configuration
@@ -29,6 +31,9 @@ public class TestConfig implements CommandLineRunner {
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
+	@Autowired
+	private ProductRepository productRepository;
+	
 	@Override
 	public void run(String... args) throws Exception {
 		
@@ -36,8 +41,15 @@ public class TestConfig implements CommandLineRunner {
 		Category cat2 = new Category(2, "Books");
 		Category cat3 = new Category(3, "Computers");
 		
+		Product p1 = new Product(1, "The Lord of the Rings", "Loren ipsim dolor sit amet, consectetur", 90.5, "");
+		Product p2 = new Product(2, "Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0,""); 
+		Product p3 = new Product(3, "Macbook Pro", "Nam eleifend maximus tortor, at mollis.", 1250.0,""); 
+		Product p4 = new Product(4, "PC Gamer", "Donec aliquet odio ac rhoncus cursus.", 1200.0,""); 
+		Product p5 = new Product(5, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99,""); 
+		
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
-
+		productRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
+		
 		User u1 = new User(1, "Jackson", "jacksonnalmeida@gmail.com", "92 99999999", "123456");
 		User u2 = new User(2, "Maria Brown", "maria@gmail.com", "988888888", "123456");
 		User u3 = new User(3, "Alex Green", "alex@gmail.com", "977777777", "123456");
