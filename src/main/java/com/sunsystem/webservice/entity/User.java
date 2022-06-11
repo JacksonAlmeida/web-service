@@ -23,6 +23,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name = "tb_user")
@@ -36,6 +38,8 @@ public class User implements UserDetails, Serializable {
 	private String name;
 	private String email;
 	private String phone;
+	
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 
 	@JsonIgnore

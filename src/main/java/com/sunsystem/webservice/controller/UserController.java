@@ -1,4 +1,4 @@
- package com.sunsystem.webservice.controller;
+package com.sunsystem.webservice.controller;
 
 import java.net.URI;
 import java.util.List;
@@ -49,11 +49,11 @@ public class UserController {
 		userService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@PutMapping(value = "updateuser/{id}")
-	public ResponseEntity<User> update(@PathVariable long id,@RequestBody User obj){
+	public ResponseEntity<User> update(@PathVariable long id, @RequestBody User obj) {
 		obj = userService.update(id, obj);
 		return ResponseEntity.ok().body(obj);
 	}
-	
+
 }

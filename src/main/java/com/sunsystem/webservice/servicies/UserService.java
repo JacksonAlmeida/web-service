@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sunsystem.webservice.entity.User;
@@ -21,6 +22,9 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private PasswordEncoder encoder;
+
 	public List<User> findAll() {
 		return userRepository.findAll();
 	}
@@ -31,6 +35,7 @@ public class UserService {
 	}
 
 	public User insert(User obj) {
+		obj.setPassword(encoder.encode(obj.getPassword()));
 		return userRepository.save(obj);
 	}
 
@@ -46,11 +51,10 @@ public class UserService {
 
 	public User update(long id, User obj) {
 		try {
-		User entity = userRepository.getById(id);
-		updateData(entity, obj);
-		return userRepository.save(entity);
-		}
-		catch(EntityNotFoundException e) {
+			User entity = userRepository.getById(id);
+			updateData(entity, obj);
+			return userRepository.save(entity);
+		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}
 	}
