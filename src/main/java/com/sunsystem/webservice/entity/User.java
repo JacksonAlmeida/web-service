@@ -2,24 +2,34 @@ package com.sunsystem.webservice.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_user")
-public class User implements Serializable {
+public class User implements UserDetails, Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -27,13 +37,20 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	private String password;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
 
-	public User () {
-		
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "tb_user_role",
+		joinColumns = @JoinColumn(name = "user_id"),
+		inverseJoinColumns = @JoinColumn(name = "role_id")
+	)
+	private Set<Role> roles = new HashSet<>();
+
+	public User() {
+
 	}
 
 	public User(long id, String name, String email, String phone, String password) {
@@ -43,7 +60,7 @@ public class User implements Serializable {
 		this.phone = phone;
 		this.password = password;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -79,13 +96,17 @@ public class User implements Serializable {
 	public String getPassword() {
 		return password;
 	}
-	
+
 	public List<Order> getOrders() {
 		return orders;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
 	@Override
@@ -104,5 +125,41 @@ public class User implements Serializable {
 		User other = (User) obj;
 		return id == other.id;
 	}
-	
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 }
