@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sunsystem.webservice.dto.TokenDTO;
 import com.sunsystem.webservice.entity.User;
 import com.sunsystem.webservice.servicies.TokenService;
 
@@ -32,7 +33,7 @@ public class AuthenticationController {
 			Authentication authentication = authenticationManager.authenticate(dadosLogin);
 			String token = tokenService.generateToken(authentication);
 			System.out.println("Token: "+ token);
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok(new TokenDTO(token, "Bearer"));
 		} catch (AuthenticationException e) {
 			return ResponseEntity.badRequest().build();
 		}
