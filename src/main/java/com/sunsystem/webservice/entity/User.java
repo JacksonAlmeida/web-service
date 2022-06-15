@@ -168,7 +168,5 @@ public class User implements UserDetails, Serializable {
 	public UsernamePasswordAuthenticationToken converter() {
 		return new UsernamePasswordAuthenticationToken(email, password);
 	}
-	
-	
-	
+
 }

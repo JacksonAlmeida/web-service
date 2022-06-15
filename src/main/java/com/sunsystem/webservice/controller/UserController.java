@@ -44,13 +44,13 @@ public class UserController {
 		return ResponseEntity.created(uri).body(obj);
 	}
 
-	@DeleteMapping(value = "deleteuser/{id}")
+	@DeleteMapping(value = "/deleteuser/{id}")
 	public ResponseEntity<Void> delete(@PathVariable long id) {
 		userService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 
-	@PutMapping(value = "updateuser/{id}")
+	@PutMapping(value = "/updateuser/{id}")
 	public ResponseEntity<User> update(@PathVariable long id, @RequestBody User obj) {
 		obj = userService.update(id, obj);
 		return ResponseEntity.ok().body(obj);

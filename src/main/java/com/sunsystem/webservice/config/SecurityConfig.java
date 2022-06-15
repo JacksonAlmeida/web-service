@@ -20,6 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.sunsystem.webservice.repository.UserRepository;
 import com.sunsystem.webservice.servicies.AuthenticationService;
 import com.sunsystem.webservice.servicies.TokenService;
 
@@ -35,6 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private TokenService tokenService;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	@Bean
 	public PasswordEncoder getPasswordEncoder() {
@@ -67,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/users/").permitAll()
 				.antMatchers(HttpMethod.GET, "/users/*").permitAll().antMatchers(HttpMethod.POST, "/auth/login")
 				.permitAll().anyRequest().authenticated().and()
-				.addFilterBefore(new AuthenticationTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
+				.addFilterBefore(new AuthenticationTokenFilter(tokenService, userRepository), UsernamePasswordAuthenticationFilter.class);
 
 	}
 
