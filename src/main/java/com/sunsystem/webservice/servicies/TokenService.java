@@ -14,17 +14,24 @@ public class TokenService {
 
 	@Value("${jwt.expiration}")
 	private Long expirationTime;
-	
+
 	@Value("${jwt.secret}")
 	private String key;
 
 	public String generateToken(Authentication authentication) {
-		return Jwts.builder()
-				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setSubject("Api whorkshop")
+		return Jwts.builder().setIssuedAt(new Date(System.currentTimeMillis())).setSubject("Api whorkshop")
 				.setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-				.signWith(SignatureAlgorithm.HS512, key)
-				.compact();
+				.signWith(SignatureAlgorithm.HS512, key).compact();
+	}
+
+	public boolean isTokenValid(String token) {
+
+		try {
+			Jwts.parser().setSigningKey(this.key).parseClaimsJws(token);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 }
