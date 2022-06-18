@@ -63,7 +63,6 @@ public class User implements UserDetails, Serializable {
 
 	@NotNull(message = "O campo senha não pode ser nulo")
 	@NotEmpty(message = "A senha deve ser informado")
-	@Size(min = 8, max = 30)
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@Column(unique = true, length = 225, nullable = false)
 	private String password;
