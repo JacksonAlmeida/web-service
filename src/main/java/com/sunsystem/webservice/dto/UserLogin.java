@@ -4,16 +4,17 @@ import java.io.Serializable;
 
 import com.sunsystem.webservice.entity.User;
 
-public class UserLogin implements Serializable{
+public class UserLogin implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private String email;
 	private String password;
 	private String token;
-	
+
 	public UserLogin(User user, String token) {
-		user.setEmail(email);;
+		user.setEmail(email);
+		;
 		user.setPassword(password);
 		this.token = token;
 	}
@@ -41,5 +42,5 @@ public class UserLogin implements Serializable{
 	public void setToken(String token) {
 		this.token = token;
 	}
-	
+
 }
