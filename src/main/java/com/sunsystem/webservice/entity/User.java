@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -38,11 +43,29 @@ public class User implements UserDetails, Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
+	@NotNull(message = "O campo nome não pode ser nulo")
+	@NotEmpty(message = "O nome deve ser informado")
+	@Column(unique = true, length = 140, nullable = false)
 	private String name;
+	
+	@NotNull(message = "O campo email não pode ser nulo")
+	@NotEmpty(message = "O email deve ser informado")
+	@Email(regexp = ".+[@].+[\\.].+")
+	@Column(unique = true, length = 200, nullable = false)
 	private String email;
+	
+	@NotNull(message = "O campo telefone não pode ser nulo")
+	@NotEmpty(message = "O telefone deve ser informado")
+	@Column(unique = true, length = 14, nullable = false)
+	@Size(min = 12, max = 12)
 	private String phone;
 
+	@NotNull(message = "O campo senha não pode ser nulo")
+	@NotEmpty(message = "A senha deve ser informado")
+	@Size(min = 8, max = 30)
 	@JsonProperty(access = Access.WRITE_ONLY)
+	@Column(unique = true, length = 225, nullable = false)
 	private String password;
 
 	@JsonIgnore
