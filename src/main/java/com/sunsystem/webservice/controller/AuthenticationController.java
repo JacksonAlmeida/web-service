@@ -16,7 +16,7 @@ import com.sunsystem.webservice.entity.User;
 import com.sunsystem.webservice.servicies.TokenService;
 
 @RestController
-@RequestMapping(value = "/auth")
+@RequestMapping(value = "/auth", produces = "application/json")
 public class AuthenticationController {
 
 	@Autowired
@@ -25,8 +25,8 @@ public class AuthenticationController {
 	@Autowired
 	private TokenService tokenService;
 
-	@PostMapping(value = "/login")
-	public ResponseEntity<?> authentication(@RequestBody User user) {
+	@PostMapping(value = "/login", consumes = "application/json")
+	public ResponseEntity<TokenDTO> authentication(@RequestBody User user) {
 		UsernamePasswordAuthenticationToken dadosLogin = user.converter();
 
 		try {
